@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Aviso;
 
 class DashboardController extends Controller
 {
@@ -23,6 +26,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        Mail::to($user['email'])->send(new Aviso());
         return view('dashboard');
     }
 }

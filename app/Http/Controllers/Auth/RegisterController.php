@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\bienvenida;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -49,6 +51,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        Mail::to($data['email'])->send(new bienvenida($data['name']));
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
